@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchWines } from '../utils/api';
+import Image from 'next/image';
 import './style.css';
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const limit = 5; // Wines per page
+  const limit = 5;
 
   const loadMore = async () => {
     if (loading || !hasMore) return;
@@ -30,7 +31,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    loadMore(); // Initial data load
+    loadMore();
   }, []);
 
   const handleScroll = () => {
@@ -53,7 +54,13 @@ export default function Home() {
       <ul>
         {wines.map((wine) => (
           <li key={wine.id}>
-            <img src={wine.image} alt={wine.wine} />
+            <Image
+              src={wine.image}
+              alt={wine.wine}
+              width={150}
+              height={200}
+              className="wine-image"
+            />
             <div>
               <p><strong>{wine.winery}</strong></p>
               <p>{wine.wine}</p>
