@@ -5,11 +5,23 @@ import { fetchWines } from '../utils/api';
 import Image from 'next/image';
 import './style.css';
 
+interface Wine {
+  winery: string;
+  wine: string;
+  rating: {
+    average: string;
+    reviews: string;
+  };
+  location: string;
+  image: string;
+  id: number;
+}
+
 export default function Home() {
-  const [wines, setWines] = useState<any[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [wines, setWines] = useState<Wine[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const limit = 5;
 
   const loadMore = async () => {
@@ -31,7 +43,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    loadMore();
+    loadMore(); // Initial data load
   }, []);
 
   const handleScroll = () => {
@@ -46,7 +58,7 @@ export default function Home() {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore]);
+  }, [loadMore]);
 
   return (
     <div className="container">
